@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="WUSM.PlanChecker.Views.PlanCheckTableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WUSM.PlanChecker.Views"
+             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:converters="clr-namespace:WUSM.PlanChecker.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:FlaggedVisibilityConverter x:Key="localFlagConverter"/>
+            <converters:WarningVisibilityConverter x:Key="localWarningConverter"/>
+            <converters:PassValueConverter x:Key="localPassConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Title}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="White" BorderThickness="1,1,0,1">
+                <TextBlock FontWeight="Bold" Text="Property" HorizontalAlignment="Center"/>
+            </Border>
+            <Border BorderBrush="White" BorderThickness="0,1,0,1" Grid.Column="1">
+                <TextBlock FontWeight="Bold" Text="Value"  HorizontalAlignment="Center"/>
+            </Border>
+            <Border BorderBrush="White" BorderThickness="0,1,1,1" Grid.Column="2">
+                <TextBlock FontWeight="Bold" Text="REsult" HorizontalAlignment="Center"/>
+            </Border>
+        </Grid>
+        <ItemsControl ItemsSource="{Binding PlanChecks}" Grid.Row="2">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border BorderBrush="White" BorderThickness="1,1,0,1">
+                            <TextBlock Text="{Binding Property}" HorizontalAlignment="Center"/>
+                        </Border>
+                        <Border BorderBrush="White" BorderThickness="0,1,0,1" Grid.Column="1">
+                            <TextBlock Text="{Binding Value}"  HorizontalAlignment="Center"/>
+                        </Border>
+                        <Border BorderBrush="White" BorderThickness="0,1,1,1" Grid.Column="2">
+                            <StackPanel Orientation="Horizontal">
+                                <icons:PackIconFontAwesome Kind="CheckCircleSolid" Width="20" Height="20" Background="Green"
+                                            Margin="30,0,0,0"   Visibility="{Binding Result,Converter={StaticResource localPassConverter}}"/>
+                            <icons:PackIconFontAwesome Kind="TimesCircleSolid" Width="20" Height="20" Background="Red"
+                                              Margin="30,0,0,0"  Visibility="{Binding Result,Converter={StaticResource localFlagConverter}}"/>
+                            <icons:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="20" Height="20" Background="Orange"
+                                            Margin="30,0,0,0"    Visibility="{Binding Result,Converter={StaticResource localWarningConverter}}"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>
